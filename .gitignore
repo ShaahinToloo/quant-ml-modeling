@@ -1,0 +1,41 @@
+.classpath
+.project
+.settings/
+
+# VSCode
+.vscode/
+
+# Logs
+logs/
+*.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Env
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# File Explorer
+.directory
+
+# resources Folder
+resources/data/
+resources/objects/peak_trough/
+
+resources/sklearn/peak/models/
+resources/sklearn/peak/objects/
+resources/sklearn/peak/scalers/
+
+resources/sklearn/trough/models/
+resources/sklearn/trough/objects/
+resources/sklearn/trough/scalers/
+
+resources/torch/peak/
+resources/torch/trough/
