@@ -1,0 +1,7 @@
+numpy
+pandas
+joblib
+matplotlib
+mplfinance
+
+scikit-learn

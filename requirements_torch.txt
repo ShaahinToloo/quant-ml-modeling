@@ -1,0 +1,14 @@
+numpy
+pandas
+joblib
+matplotlib
+mplfinance
+
+scikit-learn
+
+torch
+torchmetrics
+lightning
+
+onnx
+onnxruntime

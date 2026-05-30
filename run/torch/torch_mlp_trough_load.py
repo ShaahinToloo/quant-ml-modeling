@@ -11,6 +11,8 @@ from torch_models.src.model.isotonic_layer import IsotonicLayer
 from torch_models.src.model.mlp_calibrated import MLPWithIsotonic
 from torch_models.src.run.run_trough import RunTrough
 
+from utility.export_onnx import export_onnx_and_eval
+
 fractals_period = 7
 model_seq_len = 32
 model_look_ahead = 7
@@ -79,48 +81,4 @@ y_points = iso.y_thresholds_  # probs calibrated
 iso_layer = IsotonicLayer(x_points=x_points, y_points=y_points)
 mlp_iso = MLPWithIsotonic(mlp_model=run_obj.light_obj.model, iso_layer=iso_layer)
 
-# example_input = torch.randn(1, run_obj.input_dim, requires_grad=False)
-
-# torch.onnx.export(
-#     mlp_iso,
-#     example_input,
-#     "/home/void/ModelCoding/resources/torch/trough/models/mlp_iso_32.onnx",
-#     export_params=True,
-#     opset_version=18,
-#     dynamo=False,
-#     do_constant_folding=True,
-#     input_names=["X"],
-#     output_names=["probs_calibrated"],
-#     dynamic_axes={"X": {0: "batch"}, "probs_calibrated": {0: "batch"}},
-#     verbose=True,
-# )
-
-import onnxruntime as ort
-
-example_input = torch.randn(5, run_obj.input_dim)
-
-example_input_np = example_input.numpy()
-
-ort_session = ort.InferenceSession(
-    "/home/void/ModelCoding/resources/torch/trough/models/mlp_iso_32.onnx"
-)
-
-input_name = ort_session.get_inputs()[0].name
-output_name = ort_session.get_outputs()[0].name
-
-onnx_probs = ort_session.run([output_name], {input_name: example_input_np})[0]
-
-mlp_iso.eval()
-with torch.no_grad():
-    pytorch_probs = mlp_iso(example_input).numpy()
-
-print("Max diff between PyTorch and ONNX:", np.max(np.abs(onnx_probs - pytorch_probs)))
-print("ONNX probs:\n", onnx_probs)
-print("PyTorch probs:\n", pytorch_probs)
-
-
-# run_obj.load_trainer(learning_rate=2e-2, weight_decay=1e-4, es_patience=10)
-# run_obj.fit().test()
-# run_obj.export_onnx()
-# run_obj.log_metrics(threshold=0.5)
-# run_obj.precision_recall_curve(f"resources/torch/trough/precision_recall_curve_{model_seq_len}.png")
+export_onnx_and_eval(run_obj, mlp_iso, f"resources/torch/trough/models/onnx_mlp_iso_{model_seq_len}.onnx")

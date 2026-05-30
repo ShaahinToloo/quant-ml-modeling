@@ -26,16 +26,16 @@ Thumbs.db
 .directory
 
 # resources Folder
-resources/data/
-resources/objects/peak_trough/
+resources/data/**
+resources/objects/peak_trough/**
 
-resources/sklearn/peak/models/
-resources/sklearn/peak/objects/
-resources/sklearn/peak/scalers/
+resources/sklearn/peak/models/**
+resources/sklearn/peak/objects/**
+resources/sklearn/peak/scalers/**
 
-resources/sklearn/trough/models/
-resources/sklearn/trough/objects/
-resources/sklearn/trough/scalers/
+resources/sklearn/trough/models/**
+resources/sklearn/trough/objects/**
+resources/sklearn/trough/scalers/**
 
-resources/torch/peak/
-resources/torch/trough/
+resources/torch/peak/**
+resources/torch/trough/**
